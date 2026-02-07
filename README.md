@@ -41,7 +41,47 @@
 
 ## 🔗 Live Hosted Project
 👉 **Dashboard:**  
-https://sharabumanojkumar.github.io/Siddartha-Institutions-Boys-Hostel-Live-fee-Data/
+<!-- ================= LIVE PROJECT SECTION ================= -->
+<hr>
+
+<h2 align="center">🔗 Live Hosted Project</h2>
+
+<!-- Animated Live Dashboard CTA -->
+<p align="center">
+  <a href="https://sharabumanojkumar.github.io/Siddartha-Institutions-Boys-Hostel-Live-fee-Data/" target="_blank">
+    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=700&size=20&pause=900&color=22c55e&center=true&vCenter=true&width=520&lines=Open+Live+Hostel+Dashboard;Real-Time+Fee+Management+System" />
+  </a>
+</p>
+
+<!-- Direct Link (Clarity for Clients) -->
+<p align="center">
+  👉 <strong>Dashboard:</strong><br>
+  <a href="https://sharabumanojkumar.github.io/Siddartha-Institutions-Boys-Hostel-Live-fee-Data/" target="_blank">
+    https://sharabumanojkumar.github.io/Siddartha-Institutions-Boys-Hostel-Live-fee-Data/
+  </a>
+</p>
+
+<!-- ================= TRUST & TECH SIGNALS ================= -->
+<p align="center">
+  <img src="https://img.shields.io/badge/🚀%20Production-Live-brightgreen?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/🔄%20Realtime-Google%20Sheets-purple?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/📱%20Responsive-Mobile%20%7C%20Desktop-blue?style=for-the-badge" />
+</p>
+<!-- ================= GITHUB STATS (ANIMATED) ================= -->
+<h3 align="center">⭐ GitHub Activity</h3>
+
+<p align="center">
+  <!-- GitHub Stats -->
+  <img src="https://github-readme-stats.vercel.app/api?username=sharabumanojkumar&show_icons=true&theme=tokyonight&hide_border=true" height="170" />
+
+  <!-- GitHub Streak -->
+  <img src="https://github-readme-streak-stats.herokuapp.com?user=sharabumanojkumar&theme=tokyonight&hide_border=true" height="170" />
+</p>
+
+<p align="center">
+  <!-- Top Languages -->
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=sharabumanojkumar&layout=compact&theme=tokyonight&hide_border=true" height="150" />
+</p>
 
 ---
 
@@ -225,14 +265,8 @@ Whatever happens in Admin Panel
 
 ## 🔁 Live Sync Promise
 
-Google Sheets  
-↓  
-Dashboard  
-↓  
-Analytics  
+<img width="388" height="388" alt="Screenshot 2026-02-08 041958" src="https://github.com/user-attachments/assets/365c1e63-dabf-4055-841a-0b43327948d2" />
 
-Always live.  
-Always true.
 
 ---
 
@@ -252,7 +286,21 @@ Always true.
 AI • Full-Stack • Cloud Automation Developer  
 🎓 B.Tech – Data Science  
 
-🔗 https://github.com/sharabumanojkumar
+<!-- ================= CONNECT WITH CREATOR ================= -->
+<p align="center">
+  <!-- LinkedIn (Professional First) -->
+  <a href="https://www.linkedin.com/in/sharabu-manoj-kumar">
+    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=700&size=20&pause=900&color=0A66C2&center=true&vCenter=true&width=480&lines=Connect+with+me+on+LinkedIn;Sarabu+Manoj+Kumar" />
+  </a>
+</p>
+
+<p align="center">
+  <!-- GitHub (Technical Portfolio) -->
+  <a href="https://github.com/sharabumanojkumar">
+    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=18&pause=1000&color=4f46e5&center=true&vCenter=true&width=420&lines=Explore+my+GitHub+Projects;Sarabu+Manoj+Kumar" />
+  </a>
+</p>
+
 
 ---
 
