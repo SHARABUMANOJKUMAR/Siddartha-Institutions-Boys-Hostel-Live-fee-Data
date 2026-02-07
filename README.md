@@ -1,15 +1,40 @@
 # 🏨 Siddartha Institutions – Boys Hostel  
 ## 🎓 Live Hostel Fee Management & Analytics System
 
+<!-- ================= HERO CTA ================= -->
 <p align="center">
   <a href="https://sharabumanojkumar.github.io/Siddartha-Institutions-Boys-Hostel-Live-fee-Data/">
-    <img src="https://img.shields.io/badge/🚀 Live Demo-Online-brightgreen?style=for-the-badge">
+    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=700&size=20&pause=900&color=0A66C2&center=true&vCenter=true&width=480&lines=Open+Live+Hostel+Dashboard;Real-Time+Student+Fee+System;Built+by+Sarabu+Manoj+Kumar" />
   </a>
+</p>
+
+<!-- ================= PRIMARY ACTION ================= -->
+<p align="center">
+  <a href="https://sharabumanojkumar.github.io/Siddartha-Institutions-Boys-Hostel-Live-fee-Data/">
+    <img src="https://img.shields.io/badge/🚀%20Live%20Dashboard-Open%20Now-brightgreen?style=for-the-badge" />
+  </a>
+</p>
+
+<!-- ================= TRUST & CAPABILITY BADGES ================= -->
+<p align="center">
+  <img src="https://img.shields.io/badge/🧠%20AI--Powered-Analytics-8b5cf6?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/🔄%20Realtime-Google%20Sheets-7c3aed?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/⚡%20Instant-Sync-6366f1?style=for-the-badge" />
+</p>
+
+<!-- ================= RESPONSIVENESS & SCALE ================= -->
+<p align="center">
+  <img src="https://img.shields.io/badge/📱%20Mobile-First-2563eb?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/💻%20Desktop-Optimized-1d4ed8?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/📊%20Scalable-1000%2B%20Students-1e40af?style=for-the-badge" />
+</p>
+
+<!-- ================= OPEN SOURCE CREDIBILITY ================= -->
+<p align="center">
   <a href="https://github.com/sharabumanojkumar/Siddartha-Institutions-Boys-Hostel-Live-fee-Data">
-    <img src="https://img.shields.io/github/stars/sharabumanojkumar/Siddartha-Institutions-Boys-Hostel-Live-fee-Data?style=for-the-badge">
+    <img src="https://img.shields.io/github/stars/sharabumanojkumar/Siddartha-Institutions-Boys-Hostel-Live-fee-Data?style=for-the-badge" />
   </a>
-  <img src="https://img.shields.io/badge/Realtime-Google%20Sheets-purple?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Responsive-Mobile%20%7C%20Desktop-blue?style=for-the-badge">
+  <img src="https://img.shields.io/badge/🔒%20Secure-No%20Direct%20DB%20Access-0f172a?style=for-the-badge" />
 </p>
 
 ---
