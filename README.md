@@ -71,17 +71,14 @@
 <h3 align="center">⭐ GitHub Activity</h3>
 
 <p align="center">
-  <!-- GitHub Stats -->
-  <img src="https://github-readme-stats.vercel.app/api?username=sharabumanojkumar&show_icons=true&theme=tokyonight&hide_border=true" height="170" />
-
-  <!-- GitHub Streak -->
-  <img src="https://github-readme-streak-stats.herokuapp.com?user=sharabumanojkumar&theme=tokyonight&hide_border=true" height="170" />
+  <img
+    src="https://github.com/user-attachments/assets/e7df4e87-b1fa-4c31-b383-c76aab8e4bbb"
+    alt="Project Preview"
+    width="546"
+    height="217"
+  />
 </p>
 
-<p align="center">
-  <!-- Top Languages -->
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=sharabumanojkumar&layout=compact&theme=tokyonight&hide_border=true" height="150" />
-</p>
 
 ---
 
