@@ -280,8 +280,9 @@ Whatever happens in Admin Panel
 ## 👨‍💻 Author
 
 **Sarabu Manoj Kumar**  
-AI • Full-Stack • Cloud Automation Developer  
-🎓 B.Tech – Data Science  
+AI • Full-Stack • Cloud Automation Developer • Data Science • AI Automation  • Full-Stack Web & App • PowerBI 
+
+**🎓 B.Tech – AI & Data Science**
 
 <!-- ================= CONNECT WITH CREATOR ================= -->
 <p align="center">
