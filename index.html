@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Student Fees & Management Dashboard</title>
+    <meta name="description"
+        content="Live hostel student fees tracking and management dashboard with real-time Google Sheets integration">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-left">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToehuuznq-R_cwqET1m8eFIc6OH1xg62WteA&s"
+                    alt="Siddarth Institutions Logo" class="header-logo">
+                <h1 class="logo"> Siddarth Institutions Puttur Hostel Management</h1>
+            </div>
+            <div class="live-status">
+                <span class="status-dot"></span>
+                <span class="status-text">Live – Auto-syncing every 30s</span>
+            </div>
+            <button class="admin-button" id="adminButton">🔐 Admin</button>
+            <div class="last-updated">
+                Last updated: <span id="lastUpdateTime">--:--</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Dashboard Header with Year Filter -->
+            <div class="dashboard-header">
+                <h2 class="dashboard-title"> Dashboard Overview</h2>
+                <div class="dashboard-filter">
+                    <label for="dashboardYearFilter">Filter by Year:</label>
+                    <select id="dashboardYearFilter" class="filter-select">
+                        <option value="all">All Years</option>
+                        <option value="1st">1st Year</option>
+                        <option value="2nd">2nd Year</option>
+                        <option value="3rd">3rd Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Error Banner -->
+            <div class="error-banner" id="errorBanner" style="display: none;">
+                <span class="error-banner-icon">⚠️</span>
+                <span class="error-banner-text">Failed to sync with Google Sheets. Retrying...</span>
+                <button class="error-banner-close" onclick="hideErrorBanner()">×</button>
+            </div>
+
+            <!-- KPI Cards -->
+            <section class="kpi-section">
+                <div class="kpi-card">
+                    <div class="kpi-icon">🧍</div>
+                    <div class="kpi-content">
+                        <h3 class="kpi-label">Active Residents</h3>
+                        <p class="kpi-value" id="activeResidents">
+                            <span class="loading-skeleton">Loading...</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">🛏️</div>
+                    <div class="kpi-content">
+                        <h3 class="kpi-label">Occupancy Rate</h3>
+                        <p class="kpi-value kpi-percentage" id="occupancyRate">
+                            <span class="loading-skeleton">Loading...</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">🧾</div>
+                    <div class="kpi-content">
+                        <h3 class="kpi-label">Fee Compliance Score</h3>
+                        <p class="kpi-value kpi-percentage" id="feeComplianceScore">
+                            <span class="loading-skeleton">Loading...</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">🎓</div>
+                    <div class="kpi-content">
+                        <h3 class="kpi-label">Students by Year</h3>
+                        <div class="year-breakdown" id="yearBreakdown">
+                            <span class="loading-skeleton">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">✅</div>
+                    <div class="kpi-content">
+                        <h3 class="kpi-label">Students Paid in Full</h3>
+                        <p class="kpi-value" id="studentsPaidFull">
+                            <span class="loading-skeleton">Loading...</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">📌</div>
+                    <div class="kpi-content">
+                        <h3 class="kpi-label">Students with Pending Balance</h3>
+                        <p class="kpi-value" id="studentsPending">
+                            <span class="loading-skeleton">Loading...</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Payment Activity Timeline Card -->
+                <div class="kpi-card timeline-kpi-card">
+                    <div class="kpi-icon">📅</div>
+                    <div class="kpi-content">
+                        <h3 class="kpi-label">Payment Activity</h3>
+                        <div class="timeline-compact">
+                            <div class="timeline-row">
+                                <span class="timeline-dot-small today"></span>
+                                <span class="timeline-text">Today: <strong id="todayPayments">0</strong></span>
+                            </div>
+                            <div class="timeline-row">
+                                <span class="timeline-dot-small yesterday"></span>
+                                <span class="timeline-text">Yesterday: <strong id="yesterdayPayments">0</strong></span>
+                            </div>
+                            <div class="timeline-row">
+                                <span class="timeline-dot-small lastweek"></span>
+                                <span class="timeline-text">Last Week: <strong id="lastWeekPayments">0</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+
+                <div class="chart-card">
+                    <h3>Students by Branch</h3>
+                    <canvas id="branchChart"></canvas>
+                </div>
+
+
+                <div class="chart-card wide">
+                    <h3>Year-wise Performance</h3>
+                    <canvas id="yearChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Table Section -->
+            <section class="table-section">
+                <div class="table-header">
+                    <h2>Recent Hostel Students</h2>
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="searchInput" placeholder="Search by name, roll no, or room...">
+                        </div>
+                        <select id="yearFilter" class="filter-select">
+                            <option value="all">All Years</option>
+                            <option value="1st">1st Year</option>
+                            <option value="2nd">2nd Year</option>
+                            <option value="3rd">3rd Year</option>
+                        </select>
+                        <select id="sortBy" class="filter-select">
+                            <option value="name">Sort by Name</option>
+                            <option value="balance">Sort by Balance</option>
+                            <option value="fees">Sort by Fees Paid</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="students-table" id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Roll No</th>
+                                <th>Branch</th>
+                                <th>Year</th>
+                                <th>Room No</th>
+                                <th>Phone</th>
+                                <th>Total Fees</th>
+                                <th>Fees Paid</th>
+                                <th>Balance</th>
+                                <th>Proofs</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <tr>
+                                <td colspan="10" class="loading-row">
+                                    <span class="loading-skeleton">Loading student data...</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Cards View -->
+                <div class="mobile-cards" id="mobileCards">
+                    <div class="loading-skeleton">Loading student data...</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Student Detail Modal -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Student details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-content">
+            <button class="modal-close" id="adminClose">&times;</button>
+
+            <!-- Login Screen -->
+            <div class="admin-login" id="adminLogin">
+                <div class="login-box">
+                    <h2>🔐 Admin Login</h2>
+                    <p>Enter admin password to access management panel</p>
+                    <input type="password" id="adminPassword" placeholder="Enter password" class="admin-input">
+                    <button id="loginButton" class="primary-button">Login</button>
+                    <p class="error-message" id="loginError"></p>
+                </div>
+            </div>
+
+            <!-- Admin Panel Content -->
+            <div class="admin-panel" id="adminPanel" style="display: none;">
+                <h2>⚙️ Admin Panel</h2>
+                <div class="admin-user-info">
+                    <div class="user-details">
+                        Logged in as: <strong>Admin</strong>
+                        <div class="sync-status" id="syncStatus">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Live Sync</span>
+                        </div>
+                    </div>
+                    <button id="logoutButton" class="secondary-button">Logout</button>
+                </div>
+
+                <!-- Tabs -->
+                <div class="admin-tabs">
+                    <button class="tab-button" data-tab="dashboard">📊 Dashboard</button>
+                    <button class="tab-button active" data-tab="students">👥 Manage Students</button>
+                    <button class="tab-button" data-tab="add">➕ Add Student</button>
+                    <button class="tab-button" data-tab="add-year">📝 Add by Year</button>
+                    <button class="tab-button" data-tab="export">📥 Export Data</button>
+                </div>
+
+                <!-- Tab: Dashboard -->
+                <div class="tab-content" id="tab-dashboard">
+                    <div class="admin-dashboard-header">
+                        <h3>📊 Admin Dashboard</h3>
+                        <select id="adminDashboardYearFilter" class="filter-select">
+                            <option value="all">All Years</option>
+                            <option value="1st">1st Year</option>
+                            <option value="2nd">2nd Year</option>
+                            <option value="3rd">3rd Year</option>
+                        </select>
+                    </div>
+
+                    <!-- Admin KPIs -->
+                    <div class="admin-kpi-section">
+                        <div class="admin-kpi-card">
+                            <div class="kpi-icon">👨‍🎓</div>
+                            <div class="kpi-content">
+                                <h4>Total Students</h4>
+                                <p class="admin-kpi-value" id="adminTotalStudents">0</p>
+                            </div>
+                        </div>
+                        <div class="admin-kpi-card">
+                            <div class="kpi-icon">💰</div>
+                            <div class="kpi-content">
+                                <h4>Total Revenue</h4>
+                                <p class="admin-kpi-value" id="adminTotalRevenue">₹0</p>
+                            </div>
+                        </div>
+                        <div class="admin-kpi-card">
+                            <div class="kpi-icon">⏳</div>
+                            <div class="kpi-content">
+                                <h4>Pending Balance</h4>
+                                <p class="admin-kpi-value" id="adminPendingBalance">₹0</p>
+                            </div>
+                        </div>
+                        <div class="admin-kpi-card">
+                            <div class="kpi-icon">✅</div>
+                            <div class="kpi-content">
+                                <h4>Fully Paid</h4>
+                                <p class="admin-kpi-value" id="adminFullyPaid">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Year-wise Stats -->
+                    <div class="admin-year-stats">
+                        <div class="year-stat-card">
+                            <h4>1st Year</h4>
+                            <p class="stat-value" id="admin1stCount">0 students</p>
+                            <p class="stat-revenue" id="admin1stRevenue">₹0 collected</p>
+                        </div>
+                        <div class="year-stat-card">
+                            <h4>2nd Year</h4>
+                            <p class="stat-value" id="admin2ndCount">0 students</p>
+                            <p class="stat-revenue" id="admin2ndRevenue">₹0 collected</p>
+                        </div>
+                        <div class="year-stat-card">
+                            <h4>3rd Year</h4>
+                            <p class="stat-value" id="admin3rdCount">0 students</p>
+                            <p class="stat-revenue" id="admin3rdRevenue">₹0 collected</p>
+                        </div>
+                    </div>
+
+                    <!-- Admin Charts -->
+                    <div class="admin-charts-section">
+                        <div class="admin-chart-card">
+                            <h4>Revenue vs Balance</h4>
+                            <canvas id="adminRevenueChart"></canvas>
+                        </div>
+                        <div class="admin-chart-card">
+                            <h4>Students by Branch</h4>
+                            <canvas id="adminBranchChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Add by Year -->
+                <div class="tab-content" id="tab-add-year">
+                    <h3>📝 Quick Add by Year</h3>
+                    <p class="tab-description">Add students directly to their year's sheet with pre-selected year.</p>
+
+                    <div class="year-forms-grid">
+                        <!-- 1st Year Form -->
+                        <div class="year-form-card" data-year="1st">
+                            <div class="year-form-header">
+                                <span class="year-badge">1st Year</span>
+                            </div>
+                            <form class="year-quick-form" id="form1stYear">
+                                <input type="hidden" name="year" value="1st Year">
+                                <div class="form-group">
+                                    <input type="text" name="name" placeholder="Student Name *" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="rollNo" placeholder="Roll Number">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="branch" placeholder="Branch">
+                                </div>
+                                <div class="form-row-compact">
+                                    <input type="number" name="totalFees" placeholder="Total Fees *" required min="0">
+                                    <input type="number" name="feesPaid" placeholder="Fees Paid *" required min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" name="phone" placeholder="Phone Number">
+                                </div>
+                                <button type="submit" class="year-submit-btn">➕ Add to 1st Year</button>
+                            </form>
+                        </div>
+
+                        <!-- 2nd Year Form -->
+                        <div class="year-form-card" data-year="2nd">
+                            <div class="year-form-header">
+                                <span class="year-badge">2nd Year</span>
+                            </div>
+                            <form class="year-quick-form" id="form2ndYear">
+                                <input type="hidden" name="year" value="2nd Year">
+                                <div class="form-group">
+                                    <input type="text" name="name" placeholder="Student Name *" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="rollNo" placeholder="Roll Number">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="branch" placeholder="Branch">
+                                </div>
+                                <div class="form-row-compact">
+                                    <input type="number" name="totalFees" placeholder="Total Fees *" required min="0">
+                                    <input type="number" name="feesPaid" placeholder="Fees Paid *" required min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" name="phone" placeholder="Phone Number">
+                                </div>
+                                <button type="submit" class="year-submit-btn">➕ Add to 2nd Year</button>
+                            </form>
+                        </div>
+
+                        <!-- 3rd Year Form -->
+                        <div class="year-form-card" data-year="3rd">
+                            <div class="year-form-header">
+                                <span class="year-badge">3rd Year</span>
+                            </div>
+                            <form class="year-quick-form" id="form3rdYear">
+                                <input type="hidden" name="year" value="3rd Year">
+                                <div class="form-group">
+                                    <input type="text" name="name" placeholder="Student Name *" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="rollNo" placeholder="Roll Number">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="branch" placeholder="Branch">
+                                </div>
+                                <div class="form-row-compact">
+                                    <input type="number" name="totalFees" placeholder="Total Fees *" required min="0">
+                                    <input type="number" name="feesPaid" placeholder="Fees Paid *" required min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" name="phone" placeholder="Phone Number">
+                                </div>
+                                <button type="submit" class="year-submit-btn">➕ Add to 3rd Year</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Manage Students -->
+                <div class="tab-content active" id="tab-students">
+                    <h3>Student Management</h3>
+
+                    <!-- Admin Table Filters -->
+                    <div class="admin-filters">
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="adminSearchInput" placeholder="Search by name, roll no...">
+                        </div>
+                        <select id="adminYearFilter" class="filter-select">
+                            <option value="all">All Years</option>
+                            <option value="1st">1st Year</option>
+                            <option value="2nd">2nd Year</option>
+                            <option value="3rd">3rd Year</option>
+                        </select>
+                    </div>
+
+                    <div class="admin-table-container">
+                        <table class="admin-table" id="adminStudentsTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Roll No</th>
+                                    <th>Year</th>
+                                    <th>Branch</th>
+                                    <th>Total Fees</th>
+                                    <th>Paid</th>
+                                    <th>Balance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Add Student -->
+                <div class="tab-content" id="tab-add">
+                    <h3 id="formTitle">Add / Edit Student</h3>
+                    <form class="admin-form" id="addStudentForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Name *</label>
+                                <input type="text" id="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Roll Number</label>
+                                <input type="text" id="rollNo">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Year *</label>
+                                <select id="year" required>
+                                    <option value="">Select Year</option>
+                                    <option value="1st Year">1st Year</option>
+                                    <option value="2nd Year">2nd Year</option>
+                                    <option value="3rd Year">3rd Year</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Branch</label>
+                                <input type="text" id="branch">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>College</label>
+                                <input type="text" id="college">
+                            </div>
+                            <div class="form-group">
+                                <label>Room Number</label>
+                                <input type="text" id="roomNo">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="phone">
+                            </div>
+                            <div class="form-group">
+                                <label>Parent's Phone</label>
+                                <input type="tel" id="parentPhone">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email (for notifications)</label>
+                                <input type="email" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Proof Link</label>
+                                <input type="url" id="proofLink">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Total Fees *</label>
+                                <input type="number" id="totalFees" required min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Fees Paid *</label>
+                                <input type="number" id="feesPaid" required min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Balance (Auto-calculated)</label>
+                                <input type="number" id="balance" readonly>
+                            </div>
+                        </div>
+                        <button type="submit" class="primary-button">Add Student</button>
+                        <button type="reset" class="secondary-button">Clear Form</button>
+                    </form>
+                </div>
+
+                <!-- Tab: Export Data -->
+                <div class="tab-content" id="tab-export">
+                    <h3>Export Student Data</h3>
+                    <div class="export-options">
+                        <div class="export-card">
+                            <h4>📄 CSV Export</h4>
+                            <p>Download data in CSV format (Excel compatible)</p>
+                            <button id="exportCSV" class="primary-button">Export as CSV</button>
+                        </div>
+                        <div class="export-card">
+                            <h4>📊 Excel Export</h4>
+                            <p>Download data in Excel format (.xlsx)</p>
+                            <button id="exportExcel" class="primary-button">Export as Excel</button>
+                        </div>
+                        <div class="export-card">
+                            <h4>🖨️ Print View</h4>
+                            <p>Generate printer-friendly view</p>
+                            <button id="printData" class="primary-button">Print Data</button>
+                        </div>
+                    </div>
+                    <div class="export-info">
+                        <p><strong>Note:</strong> Exports include the currently filtered data based on your year
+                            selection.</p>
+                        <p>Total records: <span id="exportCount">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Undo Toast -->
+    <div class="undo-toast" id="undoToast">
+        <span>🗑️ Student deleted.</span>
+        <button id="undoButton">UNDO</button>
+    </div>
+
+    <!-- Error Toast -->
+    <div class="error-toast" id="errorToast"></div>
+
+    <!-- Success Toast -->
+    <div class="success-toast" id="successToast"></div>
+
+    <!-- Load SheetJS for Excel export -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+    <script src="admin.js"></script>
+</body>
+
+
+</html>
